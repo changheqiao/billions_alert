@@ -11,11 +11,41 @@ from tornado.web import Application
 from settings import service
 from common import stream_manager
 from controller import *
+import signal
+import time
 logger = common.get_default_logger()
 
 guest_user = None
 base_dir = os.path.dirname(__file__)
 context = dict(guest=None, basepath=base_dir)
+lm = None
+server = None
+MAX_WAIT_SECONDS_BEFORE_SHUTDOWN = 5
+
+
+def sig_handler(sig, frame):
+    logger.warning('Caught signal: %s', sig)
+    IOLoop.instance().add_callback(shutdown)
+
+
+def shutdown():
+    if lm:
+        lm.shutdown()
+    if server:
+        server.stop()
+
+    deadline = time.time() + MAX_WAIT_SECONDS_BEFORE_SHUTDOWN
+    io_loop = IOLoop.instance()
+
+    def stop_loop():
+        now = time.time()
+        if now < deadline and (io_loop._callbacks or io_loop._timeouts):
+            io_loop.add_timeout(now + 1, stop_loop)
+        else:
+            io_loop.stop()  # 处理完现有的 callback 和 timeout 后，可以跳出 io_loop.start() 里的循环
+            logger.info('Shutdown')
+
+    stop_loop()
 
 
 if __name__ == "__main__":
@@ -41,5 +71,9 @@ if __name__ == "__main__":
     server = HTTPServer(application)
     server.listen(port)
     logger.info("Listen HTTP @ %s" % port)
+
+    signal.signal(signal.SIGTERM, sig_handler)
+    signal.signal(signal.SIGINT, sig_handler)
+
     IOLoop.instance().start()
-    lm.shutdown()
+
