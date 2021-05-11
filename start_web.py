@@ -3,6 +3,7 @@
 Created by susy at 2021/5/11
 """
 import os
+import sys
 import common
 from tornado.ioloop import IOLoop
 from tornado.httpserver import HTTPServer
@@ -40,9 +41,10 @@ def shutdown():
 
     # deadline = time.time() + MAX_WAIT_SECONDS_BEFORE_SHUTDOWN
     time.sleep(MAX_WAIT_SECONDS_BEFORE_SHUTDOWN)
+    sys.exit(3)
+    # io_loop = IOLoop.current()
+    # io_loop.stop()
 
-    io_loop = IOLoop.current()
-    io_loop.stop()
     # def stop_loop():
     #     now = time.time()
     #     if now < deadline and (io_loop._callbacks or io_loop._timeouts):
