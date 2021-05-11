@@ -16,7 +16,7 @@ LOGIN_TOKEN_KEY = "BILLION-TOKEN"
 class BaseHandler(RequestHandler):
 
     def __init__(self, application: Application, request, **kwargs):
-        self.release_db = True
+        self.release_db = False
         self.middleware = None
         self.user_payload = None
         self.user_type = constant.USER_TYPE['SINGLE']
@@ -91,7 +91,8 @@ class BaseHandler(RequestHandler):
 
     def on_finish(self):
         # print("on_response request finish.")
-        self.try_release_db_conn()
+        if self.release_db:
+            self.try_release_db_conn()
 
     def try_release_db_conn(self):
         if self.release_db:
