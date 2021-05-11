@@ -10,9 +10,7 @@ import time
 import traceback
 from typing import Callable
 
-log_name = "manager"
-log_cfg = settings.build_logging_config(log_name, log_name)
-logger = common.get_logger(log_name, log_cfg)
+logger = common.get_default_logger()
 
 ZSET_QUEUE_PREFIX = 'zs:q'
 HSET_KEY_PREFIX = 'hs:q:t'

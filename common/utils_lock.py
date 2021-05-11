@@ -4,8 +4,8 @@ Created by susy at 2020/8/22
 """
 from common.resources import r as redis_cache
 import time
-import logging
-logger = logging.getLogger("consumer")
+import common
+logger = common.get_default_logger()
 
 
 class Lock:
