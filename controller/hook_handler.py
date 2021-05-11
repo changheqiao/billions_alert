@@ -28,8 +28,19 @@ class HookHandler(BaseHandler):
             url_params = parse.parse_qs(page_url)
             stream = self.context['stream']
             rule_id = params.get("ruleId", 0)
-            alert_id = "{}_{}_{}_{}".format(url_params.get("tab", "_"), url_params.get("panelId", "0"),
-                                 url_params.get("orgId", "0"), rule_id)
+            tabs = url_params.get("tab", [])
+            panels = url_params.get("panelId", [])
+            orgs = url_params.get("orgId", [])
+            tab_id = 0
+            panel_id = 0
+            org_id = 0
+            if tabs:
+                tab_id = tabs[0]
+            if panels:
+                panel_id = panels[0]
+            if orgs:
+                org_id = orgs[0]
+            alert_id = "{}_{}_{}_{}".format(tab_id, panel_id, org_id, rule_id)
             if "alerting" == state:
                 for em in eval_matches:
                     tags = em.get("tags", {})
