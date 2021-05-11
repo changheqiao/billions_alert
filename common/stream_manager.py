@@ -91,6 +91,6 @@ class Manager(object):
         #         c.shutdown()
         if self.ps_thread:
             self.ps_thread.stop()
-            self.ps.punsubscribe("__keyevent@{}__:expired".format(timer_r._db_index))
+            self.ps.unsubscribe("__keyevent@{}__:expired".format(timer_r._db_index))
         logger.debug("manager shutdown ok!")
 
