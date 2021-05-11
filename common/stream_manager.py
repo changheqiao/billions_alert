@@ -22,6 +22,8 @@ class Manager(object):
         self.task_producer = RedisProducer(self.worker_task_qname, max_len=200000)
 
     def check_next_group_tasks(self):
+        logger.debug("check_next_group_tasks in..")
+
         def filter_fn(item_id, last_item_id):
             logger.debug("filter item id:{}, last item id:{}".format(item_id, last_item_id))
             return False
@@ -58,6 +60,7 @@ class Manager(object):
                 if "heartbeat" == cmd:
                     if self.is_master:
                         timer_r.set("heartbeat", common.get_now_ts(), ex=constant.HEARTBEAT_DELAY)
+
                         self.check_next_group_tasks()
 
             except Exception:
