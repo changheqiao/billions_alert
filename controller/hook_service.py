@@ -13,7 +13,15 @@ class HookService(object):
     def send_wx_alert(self, params):
         t = params.get("title")
         key = "hs:u:alert:${platform}:{title}:{tm}".format(platform="grafana", title=t, tm=common.get_now_ts())
-        plat_payload = dict(id=key, version="1_0_0_1")
+        plat_payload = dict(id=key, version="1_0_0_1", status=1)
+        for k in params:
+            plat_payload[k] = params[k]
+        self.__hset_item_params(key, plat_payload)
+
+    def send_wx_alert_ok(self, params):
+        t = params.get("title")
+        key = "hs:u:alert:${platform}:{title}:{tm}".format(platform="grafana", title=t, tm=common.get_now_ts())
+        plat_payload = dict(id=key, version="1_0_0_1", status=0)
         for k in params:
             plat_payload[k] = params[k]
         self.__hset_item_params(key, plat_payload)
