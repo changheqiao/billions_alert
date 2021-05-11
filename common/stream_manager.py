@@ -25,7 +25,7 @@ class Manager(object):
         return self.task_producer
 
     def check_next_group_tasks(self):
-        logger.debug("check_next_group_tasks in..")
+        # logger.debug("check_next_group_tasks in..")
 
         def filter_fn(item_id, last_item_id):
             logger.debug("filter item id:{}, last item id:{}".format(item_id, last_item_id))
