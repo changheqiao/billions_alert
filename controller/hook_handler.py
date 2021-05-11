@@ -3,6 +3,7 @@
 Created by susy at 2021/5/11
 """
 from controller.base_handler import BaseHandler
+from settings import grafana
 import json
 
 
@@ -14,6 +15,22 @@ class HookHandler(BaseHandler):
         cmd = params.get("cmd", "")
         print("action params:", params)
         print("action path:", path)
+        state = params.get("state", None)
+        if state:
+            message = "恢复正常"
+            tags = params.get("tags", {})
+            title = params.get("ruleName", "未知")
+            uri = params.get("ruleUrl", "#")
+            domain = grafana.get("domain")
+            page_url = "{}{}".format(domain, uri)
+            if "alerting" == state:
+                message = params.get("message", None)
+                if not message:
+                    message = "异常"
+
+                pass
+            elif "ok" == state:
+                pass
         return rs
 
     def post(self):

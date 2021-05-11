@@ -30,6 +30,10 @@ service = {
     "port": 8080,
 }
 
+grafana = {
+    "domain": "https://f.alphaconsensus.com"
+}
+
 if "TEST" == env:
     # redis_config['host'] = '111.229.193.232'
     redis_config['host'] = '127.0.0.1'
