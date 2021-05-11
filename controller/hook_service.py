@@ -11,8 +11,8 @@ logger = common.get_default_logger()
 class HookService(object):
 
     def send_wx_alert(self, params, stream):
-        t = params.get("title")
-        key = "hs:u:alert:{platform}:{title}:{tm}".format(platform="grafana", title=t, tm=common.get_now_ts())
+        alert_id = params.get("aid")
+        key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=common.get_now_ts())
         plat_payload = dict(id=key, version="1_0_0_1", status=1)
 
         for k in params:
@@ -21,8 +21,8 @@ class HookService(object):
         stream.get_queue().pool(plat_payload)
 
     def send_wx_alert_ok(self, params, stream):
-        t = params.get("title")
-        key = "hs:u:alert:{platform}:{title}:{tm}".format(platform="grafana", title=t, tm=common.get_now_ts())
+        alert_id = params.get("aid")
+        key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=common.get_now_ts())
         plat_payload = dict(id=key, version="1_0_0_1", status=0)
         for k in params:
             plat_payload[k] = params[k]

@@ -5,6 +5,7 @@ Created by susy at 2021/5/11
 from controller.base_handler import BaseHandler
 from settings import grafana
 from controller.hook_service import hook_service
+from urllib import parse
 import json
 
 
@@ -24,7 +25,11 @@ class HookHandler(BaseHandler):
             uri = params.get("ruleUrl", "#")
             domain = grafana.get("domain")
             page_url = "{}{}".format(domain, uri)
+            url_params = parse.parse_qs(page_url)
             stream = self.context['stream']
+            rule_id = params.get("ruleId", 0)
+            alert_id = "{}_{}_{}_{}".format(url_params.get("tab", "_"), url_params.get("panelId", "0"),
+                                 url_params.get("orgId", "0"), rule_id)
             if "alerting" == state:
                 for em in eval_matches:
                     tags = em.get("tags", {})
@@ -32,10 +37,10 @@ class HookHandler(BaseHandler):
                     message = params.get("message", None)
                     if not message:
                         message = "异常"
-                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message), stream)
+                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message, aid=alert_id), stream)
 
             elif "ok" == state:
-                hook_service.send_wx_alert_ok(dict(title=title, page=page_url, value="", message=message), stream)
+                hook_service.send_wx_alert_ok(dict(title=title, page=page_url, value="", message=message, aid=alert_id), stream)
                 pass
         return rs
 
