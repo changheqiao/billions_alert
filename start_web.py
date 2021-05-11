@@ -21,11 +21,13 @@ context = dict(guest=None, basepath=base_dir)
 lm = None
 server = None
 MAX_WAIT_SECONDS_BEFORE_SHUTDOWN = 5
+server_context = dict(running=True)
 
 
 def sig_handler(sig, frame):
     logger.warning('Caught signal: %s', sig)
     IOLoop.instance().add_callback(shutdown)
+    server_context["running"] = False
 
 
 def shutdown():
@@ -47,6 +49,11 @@ def shutdown():
             logger.info('Shutdown')
 
     stop_loop()
+
+
+def loop_runner():
+    if not server_context["running"]:
+        shutdown()
 
 
 if __name__ == "__main__":
@@ -75,6 +82,7 @@ if __name__ == "__main__":
 
     signal.signal(signal.SIGTERM, sig_handler)
     signal.signal(signal.SIGINT, sig_handler)
-
-    IOLoop.instance().start()
+    _ioloop = IOLoop.instance()
+    _ioloop.add_callback(loop_runner)
+    _ioloop.start()
 
