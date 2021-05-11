@@ -29,6 +29,7 @@ def sig_handler(sig, frame):
 
 
 def shutdown():
+    logger.debug("Stopping http server...")
     if lm:
         lm.shutdown()
     if server:

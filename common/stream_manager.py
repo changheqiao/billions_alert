@@ -89,8 +89,10 @@ class Manager(object):
         # if self.consumers:
         #     for c in self.consumers:
         #         c.shutdown()
+        logger.debug("manager will shutdown...")
+        expired_key = "__keyevent@{}__:expired".format(timer_r._db_index)
         if self.ps_thread:
             self.ps_thread.stop()
-            self.ps.unsubscribe("__keyevent@{}__:expired".format(timer_r._db_index))
+            self.ps.unsubscribe(expired_key)
         logger.debug("manager shutdown ok!")
 
