@@ -60,6 +60,16 @@ class Struct:
         return "Struct: %s" % self.attr
 
 
+def to_num(s, d=None):
+    try:
+        return int(s)
+    except ValueError:
+        if d is None:
+            return float(s)
+        else:
+            return d
+
+
 def object_to_dict(instance, fields=[], excludes=[]):
     info = {}
 

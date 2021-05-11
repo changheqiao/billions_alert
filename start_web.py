@@ -9,6 +9,7 @@ from tornado.httpserver import HTTPServer
 from middle import middle_ware
 from tornado.web import Application
 from settings import service
+from common import stream_manager
 from controller import *
 logger = common.get_default_logger()
 
@@ -18,6 +19,8 @@ context = dict(guest=None, basepath=base_dir)
 
 
 if __name__ == "__main__":
+    lm = stream_manager.Manager("billions_alert")
+    lm.start()
     settings = {
         "static_path": os.path.join(base_dir, "static"),
         "static_url_prefix": r"/static/",
@@ -38,3 +41,4 @@ if __name__ == "__main__":
     server.listen(port)
     logger.info("Listen HTTP @ %s" % port)
     IOLoop.instance().start()
+    lm.shutdown()

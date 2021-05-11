@@ -19,12 +19,11 @@ redis_config = {
     "port": 6379
 }
 mysql_config = {
-    # "host":"172.31.140.255",
     "host": "127.0.0.1",
     "port": 3306,
-    "user": "market",
-    "password": "market",
-    "db": "marketdata"
+    "user": "app",
+    "password": "654321",
+    "db": "billions_alert"
 }
 service = {
     "port": 8080,

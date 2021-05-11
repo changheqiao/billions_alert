@@ -4,6 +4,7 @@ Created by susy at 2021/5/11
 """
 from controller.base_handler import BaseHandler
 from settings import grafana
+from controller.hook_service import hook_service
 import json
 
 
@@ -18,19 +19,23 @@ class HookHandler(BaseHandler):
         state = params.get("state", None)
         if state:
             message = "恢复正常"
-            tags = params.get("tags", {})
-            title = params.get("ruleName", "未知")
-            uri = params.get("ruleUrl", "#")
-            domain = grafana.get("domain")
-            page_url = "{}{}".format(domain, uri)
-            if "alerting" == state:
-                message = params.get("message", None)
-                if not message:
-                    message = "异常"
+            eval_matches = params.get("evalMatches", [])
+            for em in eval_matches:
+                tags = em.get("tags", {})
+                title = params.get("ruleName", "未知")
+                uri = params.get("ruleUrl", "#")
+                domain = grafana.get("domain")
+                value =params.get("value", 0)
+                page_url = "{}{}".format(domain, uri)
 
-                pass
-            elif "ok" == state:
-                pass
+                if "alerting" == state:
+                    message = params.get("message", None)
+                    if not message:
+                        message = "异常"
+                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message))
+                    pass
+                elif "ok" == state:
+                    pass
         return rs
 
     def post(self):
