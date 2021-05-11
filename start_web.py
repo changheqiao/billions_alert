@@ -39,7 +39,9 @@ def shutdown():
         server.stop()
 
     # deadline = time.time() + MAX_WAIT_SECONDS_BEFORE_SHUTDOWN
-    io_loop = IOLoop.instance()
+    time.sleep(MAX_WAIT_SECONDS_BEFORE_SHUTDOWN)
+
+    io_loop = IOLoop.current()
     io_loop.stop()
     # def stop_loop():
     #     now = time.time()
