@@ -157,7 +157,7 @@ def get_default_logger():
 
 def to_str(bs, encoding="utf-8"):
     try:
-        if bs:
+        if bs is not None:
             if isinstance(bs, dict):
                 n_dict = {}
                 for b_k in bs:

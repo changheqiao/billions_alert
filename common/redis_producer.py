@@ -121,7 +121,7 @@ class RedisProducer(object):
                                         if consumer:
                                             logger.debug("item_id:{}".format(item_id))
                                             item_obj = self.get_from_pool(item_id)
-                                            logger.debug("byte item_obj:{}".format(item_obj))
+                                            # logger.debug("byte item_obj:{}".format(item_obj))
                                             if item_obj:
                                                 item_obj_dict = common.to_str(item_obj)
 
