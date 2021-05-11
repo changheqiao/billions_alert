@@ -26,8 +26,9 @@ server_context = dict(running=True)
 
 def sig_handler(sig, frame):
     logger.warning('Caught signal: %s', sig)
-    IOLoop.instance().add_callback(shutdown)
+    # IOLoop.instance().add_callback(shutdown)
     server_context["running"] = False
+    shutdown()
 
 
 def shutdown():
@@ -37,23 +38,23 @@ def shutdown():
     if server:
         server.stop()
 
-    deadline = time.time() + MAX_WAIT_SECONDS_BEFORE_SHUTDOWN
+    # deadline = time.time() + MAX_WAIT_SECONDS_BEFORE_SHUTDOWN
     io_loop = IOLoop.instance()
+    io_loop.stop()
+    # def stop_loop():
+    #     now = time.time()
+    #     if now < deadline and (io_loop._callbacks or io_loop._timeouts):
+    #         io_loop.add_timeout(now + 1, stop_loop)
+    #     else:
+    #         io_loop.stop()  # 处理完现有的 callback 和 timeout 后，可以跳出 io_loop.start() 里的循环
+    #         logger.info('Shutdown')
+    #
+    # stop_loop()
 
-    def stop_loop():
-        now = time.time()
-        if now < deadline and (io_loop._callbacks or io_loop._timeouts):
-            io_loop.add_timeout(now + 1, stop_loop)
-        else:
-            io_loop.stop()  # 处理完现有的 callback 和 timeout 后，可以跳出 io_loop.start() 里的循环
-            logger.info('Shutdown')
 
-    stop_loop()
-
-
-def loop_runner():
-    if not server_context["running"]:
-        shutdown()
+# def loop_runner():
+#     if not server_context["running"]:
+#         shutdown()
 
 
 if __name__ == "__main__":
@@ -82,7 +83,8 @@ if __name__ == "__main__":
 
     signal.signal(signal.SIGTERM, sig_handler)
     signal.signal(signal.SIGINT, sig_handler)
-    _ioloop = IOLoop.instance()
-    _ioloop.add_callback(loop_runner)
-    _ioloop.start()
+    # _ioloop = IOLoop.instance()
+    # _ioloop.add_callback(loop_runner)
+    # _ioloop.start()
+    IOLoop.instance().start()
 
