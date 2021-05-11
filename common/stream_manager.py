@@ -69,6 +69,9 @@ class Manager(object):
             except Exception:
                 logger.error("expired_call_back failed!", exc_info=True)
 
+    def trigger_check_tasks(self):
+        timer_r.set("check_next_group_tasks", common.get_now_ts(), px=1)
+
     def setup_expired_listener(self):
         timer_r.set("heartbeat", common.get_now_ts(), ex=constant.HEARTBEAT_DELAY)
         # pxv, dt_str = self.next_5minute_delay_timestamp()

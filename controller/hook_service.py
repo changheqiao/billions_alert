@@ -19,6 +19,7 @@ class HookService(object):
             plat_payload[k] = params[k]
         # self.__hset_item_params(key, plat_payload)
         stream.get_queue().pool(plat_payload)
+        stream.trigger_check_tasks()
 
     def send_wx_alert_ok(self, params, stream):
         alert_id = params.get("aid")
