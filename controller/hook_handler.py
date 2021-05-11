@@ -24,6 +24,7 @@ class HookHandler(BaseHandler):
             uri = params.get("ruleUrl", "#")
             domain = grafana.get("domain")
             page_url = "{}{}".format(domain, uri)
+            stream = self.context['stream']
             if "alerting" == state:
                 for em in eval_matches:
                     tags = em.get("tags", {})
@@ -31,10 +32,10 @@ class HookHandler(BaseHandler):
                     message = params.get("message", None)
                     if not message:
                         message = "异常"
-                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message))
+                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message), stream)
 
             elif "ok" == state:
-                hook_service.send_wx_alert_ok(dict(title=title, page=page_url, value="", message=message))
+                hook_service.send_wx_alert_ok(dict(title=title, page=page_url, value="", message=message), stream)
                 pass
         return rs
 

@@ -21,6 +21,9 @@ class Manager(object):
         self.worker_task_qname = "worker_tasks"
         self.task_producer = RedisProducer(self.worker_task_qname, max_len=200000)
 
+    def get_queue(self):
+        return self.task_producer
+
     def check_next_group_tasks(self):
         logger.debug("check_next_group_tasks in..")
 

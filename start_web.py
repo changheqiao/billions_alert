@@ -21,6 +21,7 @@ context = dict(guest=None, basepath=base_dir)
 if __name__ == "__main__":
     lm = stream_manager.Manager("billions_alert")
     lm.start()
+    context["stream"] = lm
     settings = {
         "static_path": os.path.join(base_dir, "static"),
         "static_url_prefix": r"/static/",

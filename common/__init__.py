@@ -171,3 +171,12 @@ def to_str(bs, encoding="utf-8"):
                 return bs
     except ValueError:
         return None
+
+
+def plat_filter(o: dict) -> dict:
+    plat_payload = {}
+    for k in o:
+        v = o[k]
+        if not isinstance(v, dict) and not isinstance(v, list) and not isinstance(v, bytes):
+            plat_payload[k] = v
+    return plat_payload

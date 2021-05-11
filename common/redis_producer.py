@@ -58,7 +58,8 @@ class RedisProducer(object):
                     r.zadd(zkey, {hs_key: int((time.time()) * 1000)})
                     # if not r.exists(hs_key):
                     r.hset(hs_key, "tm", common.get_now_ts(), plat_payload)
-                    r.expire(hs_key, 24 * 60 * 60)
+                    # r.expire(hs_key, 24 * 60 * 60)
+                    r.expire(hs_key, 10 * 60)
                 except Exception:
                     traceback.print_exc()
                 finally:
