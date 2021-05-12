@@ -18,7 +18,7 @@ class HookService(object):
 
         alert_id = params.get("aid")
         key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=int(common.get_now_ts()))
-        plat_payload = dict(id=key, version="1_0_0_1", status=1)
+        plat_payload = dict(id=key, version="1_0_0_1", status=1, template=template_id)
 
         for k in params:
             plat_payload[k] = params[k]
@@ -30,7 +30,7 @@ class HookService(object):
         template_id = ""
         alert_id = params.get("aid")
         key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=int(common.get_now_ts()))
-        plat_payload = dict(id=key, version="1_0_0_1", status=0)
+        plat_payload = dict(id=key, version="1_0_0_1", status=0, template=template_id)
         for k in params:
             plat_payload[k] = params[k]
         # self.__hset_item_params(key, plat_payload)
