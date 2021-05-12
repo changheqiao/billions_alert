@@ -2,7 +2,7 @@
 """
 Created by susy at 2020/8/18
 """
-from common.helper_enum import ExceptionCode, ExceptionMsg
+from .helper_enum import ExceptionCode, ExceptionMsg
 
 
 class ApiError(Exception):
