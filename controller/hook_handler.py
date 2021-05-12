@@ -41,6 +41,7 @@ class HookHandler(BaseHandler):
             if orgs:
                 org_id = orgs[0]
             alert_id = "{}_{}_{}_{}".format(tab_id, panel_id, org_id, rule_id)
+            alert_params = dict(title=title, page=page_url, value="", message=message, aid=alert_id)
             if "alerting" == state:
                 for em in eval_matches:
                     tags = em.get("tags", {})
@@ -48,10 +49,13 @@ class HookHandler(BaseHandler):
                     message = params.get("message", None)
                     if not message:
                         message = "异常"
-                    hook_service.send_wx_alert(dict(title=title, page=page_url, value=value, message=message, aid=alert_id), stream)
-
+                    alert_params['value'] = value
+                    alert_params['message'] = message
+                    hook_service.send_wx_alert(alert_params, stream)
+                    hook_service.send_fs_alert(alert_params, stream)
             elif "ok" == state:
-                hook_service.send_wx_alert_ok(dict(title=title, page=page_url, value="", message=message, aid=alert_id), stream)
+                hook_service.send_wx_alert_ok(alert_params, stream)
+                hook_service.send_fs_alert_ok(alert_params, stream)
                 pass
         return rs
 
