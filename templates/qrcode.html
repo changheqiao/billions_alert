@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>远程授权</title>
+    <!--<link href="/static/js/jquery-ui/jquery-ui.css" rel="stylesheet">-->
+    <!--<script src="/static/js/jquery-ui/external/jquery/jquery.js"></script>-->
+    <!--<script src="/static/js/jquery-ui/jquery.cookie.min.js"></script>-->
+    <!--<script src="/static/js/jquery-ui/jquery-ui.js"></script>-->
+</head>
+<body>
+    <img src="{{qrcode}}" id="qr"/>
+    <!--<input type="button" id="test_btn" value="fetch_qrcode">-->
+    <!--<input type="button" id="test_checkout_btn" value="checkout_qrcode">-->
+</body>
+<script>
+    // var qr_code_id = null;
+    // function checkout_qrcode(cb) {
+    //     var point = '/s/wx/get';
+    //     var params = {"cmd": 'checkqrcode', 'code': qr_code_id};
+    //     if(qr_code_id){
+    //         $.ajax({
+    //             url:point,
+    //             data:JSON.stringify(params),
+    //             method:"POST",
+    //             contentType:"application/json;charset=utf-8",
+    //             dataType: "json",
+    //             success:function (res) {
+    //                 console.log("success checkout rs:", res);
+    //                 if(cb){
+    //                  cb(res);
+    //                 }
+    //             }
+    //         })
+    //     }
+    //
+    // }
+    // function fetch_qrcode(cb) {
+    //     var point = '/s/wx/get';
+    //     var params = {"cmd": 'qrcode'};
+    //     $.ajax({
+    //             url:point,
+    //             data:JSON.stringify(params),
+    //             method:"POST",
+    //             contentType:"application/json;charset=utf-8",
+    //             dataType: "json",
+    //             success:function (res) {
+    //                 console.log("success new essay rs:", res);
+    //                 if(cb){
+    //                  cb(res);
+    //                 }
+    //             }
+    //         })
+    // }
+    // $("#qr").hide();
+    // $( "#test_btn" ).on("click", (e)=>{
+    //     fetch_qrcode((rs)=>{
+    //         if(rs.id){
+    //             var qrcode_src = rs.qrcode;
+    //             qr_code_id = rs.id;
+    //             var qr_img = $( "#qr" )[0]
+    //             qr_img.src = qrcode_src;
+    //             qr_img.onload = function(){
+    //                 $("#qr").show();
+    //             }
+    //
+    //         }
+    //     });
+    // });
+    // $( "#test_checkout_btn" ).on("click", (e)=>{
+    //     checkout_qrcode((rs)=>{
+    //         if(rs.tk){
+    //             alert('tk:'+rs.tk)
+    //         }
+    //     });
+    // });
+</script>
+</html>

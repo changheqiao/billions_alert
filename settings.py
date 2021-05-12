@@ -34,6 +34,13 @@ grafana = {
     "domain": "https://f.alphaconsensus.com"
 }
 
+WX_API = dict(
+    appid='wxdab8fba098571a8f',
+    appsecret='54b19bda66eaf610c9092ef2b8aa432e',
+    token='contec',
+    point='https://api.weixin.qq.com',
+)
+
 if "TEST" == env:
     # redis_config['host'] = '111.229.193.232'
     redis_config['host'] = '127.0.0.1'
