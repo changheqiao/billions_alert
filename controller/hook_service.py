@@ -37,7 +37,7 @@ class HookService(object):
         stream.get_queue().pool(plat_payload)
 
     def send_fs_alert(self, params, stream):
-        template_id = "billions-it"
+        template_id = "f80f14ea-0a67-4ca0-abae-11b5ad51027c"
 
         alert_id = params.get("aid")
         key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=int(common.get_now_ts()))
@@ -50,7 +50,7 @@ class HookService(object):
         stream.trigger_check_tasks()
 
     def send_fs_alert_ok(self, params, stream):
-        template_id = "billions-it"
+        template_id = "f80f14ea-0a67-4ca0-abae-11b5ad51027c"
         alert_id = params.get("aid")
         key = "hs:u:alert:{platform}:{alert_id}:{tm}".format(platform="grafana", alert_id=alert_id, tm=int(common.get_now_ts()))
         plat_payload = dict(id=key, version="1_0_0_2", status=0, template=template_id)
