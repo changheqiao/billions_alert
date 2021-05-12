@@ -49,8 +49,12 @@ class HookHandler(BaseHandler):
                     message = params.get("message", None)
                     if not message:
                         message = "异常"
+                    msg_prefix = ""
+                    for k in tags:
+                        msg_prefix = "{}:{}".format(tags[k], msg_prefix)
+
                     alert_params['value'] = value
-                    alert_params['message'] = message
+                    alert_params['message'] = "[{}]{}".format(msg_prefix, message)
                     hook_service.send_wx_alert(alert_params, stream)
                     hook_service.send_fs_alert(alert_params, stream)
             elif "ok" == state:
