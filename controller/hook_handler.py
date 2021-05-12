@@ -51,7 +51,10 @@ class HookHandler(BaseHandler):
                         message = "异常"
                     msg_prefix = ""
                     for k in tags:
-                        msg_prefix = "{}:{}".format(tags[k], msg_prefix)
+                        if msg_prefix:
+                            msg_prefix = "{}:{}".format(tags[k], msg_prefix)
+                        else:
+                            msg_prefix = tags[k]
 
                     alert_params['value'] = value
                     alert_params['message'] = "[{}]{}".format(msg_prefix, message)
